@@ -1,17 +1,41 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { applyMiddleware, createStore } from 'redux';
+import reduxThunk from 'redux-thunk';
+import reducers from './reducers';
+import Home from "./components/page/home";
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+const store = createStore(
+    reducers,
+    applyMiddleware(reduxThunk)
+);
+
+const Page404 = () => (
+    <div>
+        <h1>Page not found - 404</h1>
+    </div>
+)
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+    <Provider store={store}>
+        <BrowserRouter>
+            {/*<TopMenu></TopMenu>*/}
+            <Switch>
+                <Route path="/" exact>
+                    <Redirect to="/home" />
+                </Route>
+                <Route path="/home" exact component={Home} />
+                <Route path="*">
+                    <Page404 />
+                </Route>
+            </Switch>
+
+
+        </BrowserRouter>
+    </Provider>,
   document.getElementById('root')
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
