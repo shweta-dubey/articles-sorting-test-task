@@ -40,7 +40,7 @@ class Home extends Component<propsI,stateI> {
         const { articlesData } = this.state;
         return (
             <div className="home">
-                <div>Articles List</div>
+                <div className="heading">Articles List</div>
                 <button type="button" onClick={() => this.handleSorting('upvotes')}> Most Upvoted </button>
                 <button type="button" onClick={() => this.handleSorting('date')}> Most Recent </button>
                 <table>
